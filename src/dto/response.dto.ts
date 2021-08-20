@@ -1,4 +1,4 @@
-export class ResponseDtol {
+export class ResponseDto {
   ok: boolean;
   data?: any;
   message: string;
