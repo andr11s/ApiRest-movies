@@ -7,7 +7,7 @@ export class Movies extends Document {
   @Prop({ required: true, unique: true })
   id: string;
 
-  @Prop({ required: true })
+  @Prop()
   description: string;
 
   @Prop({ default: Date.now })
@@ -18,7 +18,7 @@ export class Movies extends Document {
     required: false,
     ref: User.name,
   })
-  user: MongooseSchema.Types.ObjectId;
+  userId: MongooseSchema.Types.ObjectId;
 }
 
 export const MoviesSchema = SchemaFactory.createForClass(Movies);
