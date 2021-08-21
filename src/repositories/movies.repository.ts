@@ -59,4 +59,13 @@ export class MoviesRepository {
       })
       .pipe(map((response) => response.data));
   }
+
+  async getMovieDetailed(movie_id: string) {
+    return this.axios
+      .get(`${this.getApi}/movies/getdetails`, {
+        params: { movie_id },
+        headers: { ...this.getHeader },
+      })
+      .pipe(map((response) => response.data));
+  }
 }

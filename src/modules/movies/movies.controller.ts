@@ -7,6 +7,7 @@ import {
   Body,
   Res,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { GetApiMoviesDto } from './dto/getMoviesdto';
 import { MoviesService } from './movies.service';
@@ -28,6 +29,11 @@ export class MoviesController {
   @Get('/getSearchName')
   async getSearchMovieName(@Body() params: GetApiMoviesDto) {
     return await this._movieService.getSearchName(params);
+  }
+
+  @Get('/getMovieDetailed/:movie_id')
+  async getMoviesDetailes(@Param('movie_id') movie_id: string) {
+    return await this._movieService.getMovieDetailed(movie_id);
   }
 
   @Post()

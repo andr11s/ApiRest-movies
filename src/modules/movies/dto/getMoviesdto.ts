@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Schema as MongooseSchema } from 'mongoose';
 
 export class GetApiMoviesDto {
   @IsString()

@@ -17,4 +17,8 @@ export class MoviesService {
   async getSearchName(params: GetApiMoviesDto) {
     return await this.movieRepository.getMoviesName(params);
   }
+
+  async getMovieDetailed(movie_id: string) {
+    return await this.movieRepository.getMovieDetailed(movie_id);
+  }
 }
