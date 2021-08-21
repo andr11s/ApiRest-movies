@@ -15,14 +15,19 @@ import { MoviesService } from './movies.service';
 export class MoviesController {
   constructor(private readonly _movieService: MoviesService) {}
 
-  @Get()
+  @Get('/getGenrenList')
   async findAll() {
-    return await this._movieService.get();
+    return await this._movieService.getGenderList();
   }
 
-  @Get('/getGenren')
-  async getGenre(@Body() params: GetApiMoviesDto) {
-    const a = await this._movieService.getGenre(params);
+  @Get('/getSearchGenren')
+  async getSearchMovieGenre(@Body() params: GetApiMoviesDto) {
+    return await this._movieService.getGenre(params);
+  }
+
+  @Get('/getSearchName')
+  async getSearchMovieName(@Body() params: GetApiMoviesDto) {
+    return await this._movieService.getSearchName(params);
   }
 
   @Post()

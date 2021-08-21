@@ -6,11 +6,15 @@ import { GetApiMoviesDto } from './dto/getMoviesdto';
 export class MoviesService {
   constructor(private readonly movieRepository: MoviesRepository) {}
 
-  async get() {
-    return await this.movieRepository.get();
+  async getGenderList() {
+    return await this.movieRepository.getGenderList();
   }
 
   async getGenre(params: GetApiMoviesDto) {
     return await this.movieRepository.getMoviesGenre(params);
+  }
+
+  async getSearchName(params: GetApiMoviesDto) {
+    return await this.movieRepository.getMoviesName(params);
   }
 }
