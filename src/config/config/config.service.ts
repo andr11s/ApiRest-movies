@@ -18,6 +18,13 @@ export class ConfigService {
     return this.get('PORT');
   }
 
+  public async getKeyApiMovie() {
+    return {
+      'x-rapidapi-host': this.get('x-rapidapi-host'),
+      'x-rapidapi-key': this.get('x-rapidapi-key'),
+    };
+  }
+
   public async getMongoConfig() {
     return {
       uri:
