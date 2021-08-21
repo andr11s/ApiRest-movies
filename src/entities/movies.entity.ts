@@ -4,18 +4,23 @@ import { User } from './user.entity';
 
 @Schema()
 export class Movies extends Document {
-  @Prop({ required: true, unique: true })
-  id: string;
+  @Prop({
+    type: String,
+    required: true,
+    unique: true,
+    message: 'El id de la pelicula debe ser unico',
+  })
+  movie_id: string;
 
-  @Prop()
+  @Prop({ type: String })
   description: string;
 
-  @Prop({ default: Date.now })
+  @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
   @Prop({
     type: MongooseSchema.Types.ObjectId,
-    required: false,
+    required: true,
     ref: User.name,
   })
   userId: MongooseSchema.Types.ObjectId;

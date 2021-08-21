@@ -5,6 +5,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema as MongooseSchema } from 'mongoose';
 import { User } from 'src/entities/user.entity';
+import { CreateMoviesDto } from 'src/modules/movies/dto/createMovieDto';
 import { CreateUserDto } from 'src/modules/user/dto/createUserDto';
 import { UpdateUserDto } from 'src/modules/user/dto/updateUserDto';
 
@@ -61,7 +62,6 @@ export class UserRepository {
 
   async updateUser(userDto: UpdateUserDto) {
     const petExists: any = await this.getUserByEmail(userDto.email);
-    console.log(petExists.id);
 
     if (!petExists.ok) {
       try {

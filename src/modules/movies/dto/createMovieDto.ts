@@ -8,7 +8,7 @@ export class CreateMoviesDto {
 
   @IsString()
   @IsNotEmpty()
-  id: MongooseSchema.Types.ObjectId;
+  movie_id: string;
 
   @IsString()
   @IsOptional()
