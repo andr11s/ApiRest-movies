@@ -10,12 +10,8 @@ export class MoviesMongoRepository {
   ) {}
 
   async createMovie(createMovie: CreateMoviesDto) {
-    const { movie_id, userId, description } = createMovie;
-
     const newMovie = new this.movieModel({
-      movie_id,
-      userId,
-      description,
+      ...createMovie,
     });
 
     try {
@@ -36,7 +32,7 @@ export class MoviesMongoRepository {
 
     try {
       const newmovie = await this.movieModel.findByIdAndUpdate(
-        { movie_id: movie.movie_id },
+        { _id: movie._id },
         movieUpdate,
         { new: true },
       );
@@ -45,6 +41,31 @@ export class MoviesMongoRepository {
       return {
         message: 'Ocurrio un error al momento de actualizar',
         error,
+      };
+    }
+  }
+
+  async deleteMovie(_id: MongooseSchema.Types.ObjectId) {
+    const movieDelete: any = await this.getMovieById(_id);
+
+    if (!movieDelete.ok) {
+      try {
+        const Dmovie = await this.movieModel.findByIdAndDelete({
+          _id: _id,
+        });
+        return {
+          message: 'Pelicula eliminada',
+          Dmovie,
+        };
+      } catch (error) {
+        return {
+          message: 'Ocurrio un error al eliminar pelicula',
+          error,
+        };
+      }
+    } else {
+      return {
+        message: 'Error, la pelicula no existe en la base de datos',
       };
     }
   }
@@ -76,10 +97,7 @@ export class MoviesMongoRepository {
   async getMoviesByUser(id: MongooseSchema.Types.ObjectId) {
     try {
       let MoviesUser: CreateMoviesDto[];
-      MoviesUser = await this.movieModel
-        .find({ userId: id })
-        .populate('movies')
-        .exec();
+      MoviesUser = await this.movieModel.find({ userId: id }).exec();
       return MoviesUser;
     } catch (error) {
       return {
@@ -88,9 +106,9 @@ export class MoviesMongoRepository {
       };
     }
   }
-  async getMovieById(id: string) {
+  async getMovieById(id: MongooseSchema.Types.ObjectId) {
     try {
-      const movie = await this.movieModel.findById({ movie_id: id });
+      const movie = await this.movieModel.findById({ _id: id });
       return movie;
     } catch (error) {
       return {

@@ -13,6 +13,7 @@ import { CreateMoviesDto } from './dto/createMovieDto';
 import { GetApiMoviesDto } from './dto/getMoviesdto';
 import { MoviesService } from './movies.service';
 import { Schema as MongooseSchema } from 'mongoose';
+import { UpdateMovieDto } from './dto/updateMovieDto';
 
 @Controller('movies')
 export class MoviesController {
@@ -60,14 +61,21 @@ export class MoviesController {
     @Res() res: any,
   ): Promise<CreateMoviesDto> {
     const newMovie = await this._movieService.createMovie(createMovie);
-    console.log(newMovie);
-
     return res.status(HttpStatus.CREATED).send(newMovie);
   }
 
-  @Put('/:id')
-  update() {}
+  @Put('/updateDescription')
+  async update(@Body() params: UpdateMovieDto, @Res() res: any) {
+    const updateMovie = await this._movieService.updateMovie(params);
+    return res.status(HttpStatus.OK).send(updateMovie);
+  }
 
-  @Delete('/:id')
-  delete() {}
+  @Delete('/deleteMovie/:id')
+  async delete(
+    @Param('id') id: MongooseSchema.Types.ObjectId,
+    @Res() res: any,
+  ) {
+    const deleteMovie = await this._movieService.deleteMovie(id);
+    return res.status(HttpStatus.OK).send(deleteMovie);
+  }
 }

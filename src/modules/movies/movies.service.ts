@@ -38,15 +38,15 @@ export class MoviesService {
     return await this.movieMongoRepositoy.getMoviesByUser(id);
   }
 
-  async getMovieById(id: string) {
-    return await this.movieMongoRepositoy.getMovieById(id);
-  }
-
   async createMovie(createmovie: CreateMoviesDto) {
     return await this.movieMongoRepositoy.createMovie(createmovie);
   }
 
   async updateMovie(updatemovie: UpdateMovieDto) {
     return await this.movieMongoRepositoy.updateMovie(updatemovie);
+  }
+
+  async deleteMovie(id: MongooseSchema.Types.ObjectId) {
+    return await this.movieMongoRepositoy.deleteMovie(id);
   }
 }
