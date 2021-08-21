@@ -16,11 +16,14 @@ export class MoviesMongoRepository {
 
     try {
       const movie = await newMovie.save();
-      return movie;
+      return {
+        message: `La pelicula ${movie.movie_id} se creo con exito,`,
+        error: false,
+      };
     } catch (error) {
       return {
         message: 'Ocurrio un error al momento de guardar',
-        error,
+        error: true,
       };
     }
   }
@@ -36,11 +39,14 @@ export class MoviesMongoRepository {
         movieUpdate,
         { new: true },
       );
-      return newmovie;
+      return {
+        message: `La pelicula ${newmovie.movie_id} se actualizo con exito,`,
+        error: false,
+      };
     } catch (error) {
       return {
         message: 'Ocurrio un error al momento de actualizar',
-        error,
+        error: true,
       };
     }
   }
@@ -55,17 +61,18 @@ export class MoviesMongoRepository {
         });
         return {
           message: 'Pelicula eliminada',
-          Dmovie,
+          error: false,
         };
       } catch (error) {
         return {
           message: 'Ocurrio un error al eliminar pelicula',
-          error,
+          error: true,
         };
       }
     } else {
       return {
         message: 'Error, la pelicula no existe en la base de datos',
+        error: true,
       };
     }
   }
@@ -90,7 +97,7 @@ export class MoviesMongoRepository {
     } catch (error) {
       return {
         message: 'Ocurrio un error al momento de buscar peliculas',
-        error,
+        error: true,
       };
     }
   }
@@ -102,7 +109,7 @@ export class MoviesMongoRepository {
     } catch (error) {
       return {
         message: 'Ocurrio un error al momento de buscar peliculas',
-        error,
+        error: true,
       };
     }
   }
@@ -113,7 +120,7 @@ export class MoviesMongoRepository {
     } catch (error) {
       return {
         message: 'La pelicula no existe en la base de datos',
-        error,
+        error: true,
       };
     }
   }

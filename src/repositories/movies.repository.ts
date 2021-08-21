@@ -1,25 +1,16 @@
 import { HttpService } from '@nestjs/axios';
-import {
-  ConflictException,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema as MongooseSchema } from 'mongoose';
 import { ConfigService } from '../config/config/config.service';
-import { Movies } from 'src/entities/movies.entity';
-import { CreateMoviesDto } from 'src/modules/movies/dto/createMovieDto';
 import { GetApiMoviesDto } from 'src/modules/movies/dto/getMoviesdto';
 import { map } from 'rxjs';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class MoviesRepository {
   private config = new ConfigService();
   getHeader = {};
   getApi = {};
 
-  constructor(
-    @InjectModel(Movies.name) private readonly movieModel: Model<Movies>,
-    private readonly axios: HttpService,
-  ) {
+  constructor(private readonly axios: HttpService) {
     this.GetAccesApi();
     this.getapi();
   }

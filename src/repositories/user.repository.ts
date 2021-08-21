@@ -1,11 +1,6 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema as MongooseSchema } from 'mongoose';
 import { User } from 'src/entities/user.entity';
-import { CreateMoviesDto } from 'src/modules/movies/dto/createMovieDto';
 import { CreateUserDto } from 'src/modules/user/dto/createUserDto';
 import { UpdateUserDto } from 'src/modules/user/dto/updateUserDto';
 
@@ -45,7 +40,10 @@ export class UserRepository {
 
       try {
         const createUser = await newUser.save();
-        return createUser;
+        return {
+          message: `Usuario ${createUser.name} creado con exito,`,
+          error: false,
+        };
       } catch (error) {
         return {
           message: 'Error al consultar la BD',
@@ -61,14 +59,17 @@ export class UserRepository {
   }
 
   async updateUser(userDto: UpdateUserDto) {
-    const petExists: any = await this.getUserByEmail(userDto.email);
+    const userExists: any = await this.getUserByEmail(userDto.email);
 
-    if (!petExists.ok) {
+    if (!userExists.ok) {
       try {
-        const updatePet = await this.userModel
+        const updateUser = await this.userModel
           .findByIdAndUpdate({ _id: userDto.id }, userDto, { new: true })
           .exec();
-        return updatePet;
+        return {
+          message: `Usuario ${updateUser.name} se actualizo con exito,`,
+          error: false,
+        };
       } catch (error) {
         return {
           message: 'Error al consultar la BD',
