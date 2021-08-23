@@ -26,7 +26,11 @@ export class MoviesRepository {
   async getGenderList() {
     return this.axios
       .get(`${this.getApi}/genre/movie/list`, {
-        headers: { ...this.getHeader },
+        headers: {
+          'x-rapidapi-host': 'advanced-movie-search.p.rapidapi.com',
+          'x-rapidapi-key':
+            'dd6da5bc4dmsh79bcd80a3f31ccap1d07dfjsn41f09cb04316',
+        },
       })
       .pipe(map((response) => response.data));
   }
