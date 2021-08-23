@@ -32,7 +32,7 @@ export class UserRepository {
   async createUser(userDto: CreateUserDto) {
     const userExist: any = await this.getUserByEmail(userDto.email);
 
-    if (userExist.length === 0) {
+    if (userExist.message != 'Usuario encontrado') {
       const newUser = new this.userModel({
         name: userDto.name,
         email: userDto.email,
@@ -41,7 +41,7 @@ export class UserRepository {
       try {
         const createUser = await newUser.save();
         return {
-          message: `Usuario ${createUser.name} creado con exito,`,
+          message: `El usuario: ${createUser.name}, ha sido creado con exito,`,
           error: false,
         };
       } catch (error) {
@@ -52,22 +52,23 @@ export class UserRepository {
       }
     } else {
       return {
-        message: 'El usuario no existe en la base de datos',
+        message: 'El usuario ya se encuentra registrado',
         error: true,
       };
     }
   }
 
   async updateUser(userDto: UpdateUserDto) {
-    const userExists: any = await this.getUserByEmail(userDto.email);
+    const userExists: any = await this.getUserById(userDto.id);
+    console.log(userExists);
 
-    if (!userExists.ok) {
+    if (userExists.message == 'Usuario encontrado') {
       try {
         const updateUser = await this.userModel
           .findByIdAndUpdate({ _id: userDto.id }, userDto, { new: true })
           .exec();
         return {
-          message: `Usuario ${updateUser.name} se actualizo con exito,`,
+          message: `El usuario: ${updateUser.name}, se actualizo con exito,`,
           error: false,
         };
       } catch (error) {
@@ -86,8 +87,21 @@ export class UserRepository {
 
   async getUserById(id: MongooseSchema.Types.ObjectId) {
     try {
-      const user = await this.userModel.findById({ _id: id });
-      return user;
+      const user: any = await this.userModel.findById({ _id: id });
+      console.log('user', user);
+
+      if (Object.keys(user).length != 0) {
+        return {
+          message: 'Usuario encontrado',
+          user,
+          error: true,
+        };
+      } else {
+        return {
+          message: 'El usuario no existe en la base de datos',
+          error: false,
+        };
+      }
     } catch (error) {
       return {
         message: 'El usuario no existe en la base de datos',
@@ -98,10 +112,18 @@ export class UserRepository {
 
   async getUserByEmail(email: string) {
     try {
-      const user = await this.userModel
-        .find({ email }, 'name email img role')
-        .exec();
-      return user;
+      const user: User[] = await this.userModel.find({ email }).exec();
+      if (user.length > 0) {
+        return {
+          message: 'Usuario encontrado',
+          error: true,
+        };
+      } else {
+        return {
+          message: 'El usuario no existe en la base de datos',
+          error: false,
+        };
+      }
     } catch (error) {
       return {
         message: 'El usuario no existe en la base de datos',
