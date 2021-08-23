@@ -20,17 +20,19 @@ export class MoviesRepository {
   }
 
   async getapi() {
-    this.getApi = this.config.get('API');
+    this.getApi = await this.config.get('API');
   }
 
+  get params() {
+    return {
+      'x-rapidapi-host': 'advanced-movie-search.p.rapidapi.com',
+      'x-rapidapi-key': 'dd6da5bc4dmsh79bcd80a3f31ccap1d07dfjsn41f09cb04316',
+    };
+  }
   async getGenderList() {
     return this.axios
       .get(`${this.getApi}/genre/movie/list`, {
-        headers: {
-          'x-rapidapi-host': 'advanced-movie-search.p.rapidapi.com',
-          'x-rapidapi-key':
-            'dd6da5bc4dmsh79bcd80a3f31ccap1d07dfjsn41f09cb04316',
-        },
+        headers: this.params,
       })
       .pipe(map((response) => response.data));
   }
@@ -40,7 +42,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/discover/movie`, {
         params: { with_genres, page },
-        headers: { ...this.getHeader },
+        headers: this.getHeader,
       })
       .pipe(map((response) => response.data));
   }
@@ -50,7 +52,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/search/movie`, {
         params: { query, page },
-        headers: { ...this.getHeader },
+        headers: this.getHeader,
       })
       .pipe(map((response) => response.data));
   }
@@ -59,7 +61,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/movies/getdetails`, {
         params: { movie_id },
-        headers: { ...this.getHeader },
+        headers: this.getHeader,
       })
       .pipe(map((response) => response.data));
   }
