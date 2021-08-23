@@ -60,8 +60,6 @@ export class UserRepository {
 
   async updateUser(userDto: UpdateUserDto) {
     const userExists: any = await this.getUserById(userDto.id);
-    console.log(userExists);
-
     if (userExists.message == 'Usuario encontrado') {
       try {
         const updateUser = await this.userModel
@@ -94,12 +92,12 @@ export class UserRepository {
         return {
           message: 'Usuario encontrado',
           user,
-          error: true,
+          error: false,
         };
       } else {
         return {
           message: 'El usuario no existe en la base de datos',
-          error: false,
+          error: true,
         };
       }
     } catch (error) {
@@ -116,12 +114,13 @@ export class UserRepository {
       if (user.length > 0) {
         return {
           message: 'Usuario encontrado',
-          error: true,
+          user,
+          error: false,
         };
       } else {
         return {
           message: 'El usuario no existe en la base de datos',
-          error: false,
+          error: true,
         };
       }
     } catch (error) {
