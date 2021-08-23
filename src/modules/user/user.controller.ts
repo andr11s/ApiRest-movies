@@ -32,6 +32,12 @@ export class UserController {
     return res.status(HttpStatus.OK).send(user);
   }
 
+  @Get('/getUserEmail/:email')
+  async getUserByEmail(@Param('email') email: string, @Res() res: any) {
+    const user = await this._userService.getUserByEmail(email);
+    return res.status(HttpStatus.OK).send(user);
+  }
+
   @Post('/createUser')
   async create(
     @Body() createUser: CreateUserDto,

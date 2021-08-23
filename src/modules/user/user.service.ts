@@ -15,6 +15,9 @@ export class UserService {
   async getUserById(id: MongooseSchema.Types.ObjectId) {
     return await this.userRepository.getUserById(id);
   }
+  async getUserByEmail(email: string) {
+    return await this.userRepository.getUserByEmail(email);
+  }
 
   async createUser(createUser: CreateUserDto) {
     return await this.userRepository.createUser(createUser);
