@@ -42,7 +42,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/discover/movie`, {
         params: { with_genres, page },
-        headers: this.getHeader,
+        headers: this.params,
       })
       .pipe(map((response) => response.data));
   }
@@ -52,7 +52,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/search/movie`, {
         params: { query, page },
-        headers: this.getHeader,
+        headers: this.params,
       })
       .pipe(map((response) => response.data));
   }
@@ -61,7 +61,7 @@ export class MoviesRepository {
     return this.axios
       .get(`${this.getApi}/movies/getdetails`, {
         params: { movie_id },
-        headers: this.getHeader,
+        headers: this.params,
       })
       .pipe(map((response) => response.data));
   }
