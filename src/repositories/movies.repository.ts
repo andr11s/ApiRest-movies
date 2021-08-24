@@ -26,7 +26,7 @@ export class MoviesRepository {
   get params() {
     return {
       'x-rapidapi-host': 'advanced-movie-search.p.rapidapi.com',
-      'x-rapidapi-key': 'dd6da5bc4dmsh79bcd80a3f31ccap1d07dfjsn41f09cb04316',
+      'x-rapidapi-key': '14299ea822msh28ba98c0cf3fec3p10fcb4jsne665a241959e',
     };
   }
   async getGenderList() {
